@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,20 +15,101 @@ class App extends Component {
       totalPremium: 0, // Total premium amount
       isAddedToCart: false,
       isPurchased: false,
-      isPremiumCalculated: false,
     };
   }
 
 
   handleredirectcheckoutpage = () => {
-
+    // const totalPremium = this.state.premium.reduce((total, [, premium]) => total + premium, 0);
     const totalPremium = this.state.premium;
     this.setState({ isAddedToCart: true })
     if (totalPremium !== 0) {
-      console.log("Total Premium:", totalPremium);
 
+      // Redirect to the checkout page and pass the total premium value
+      // Here you should implement your logic to add the total premium to the cart
+      // and then redirect to the checkout page.
+      // You can use React Router for the redirection or any other method you prefer.
+      console.log("Total Premium:", totalPremium);
+      // Example using React Router:
+      // this.props.history.push('/checkout', { totalPremium });
     }
   };
+
+  // handleCalculatePremium = async () => {
+  //   try {
+  //     const { numAdults, numChildren, ages, cityTier, tenure, coverage } = this.state;
+  //     const response = await fetch('http://localhost:5000/api/calculate-premium', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         numAdults,
+  //         numChildren,
+  //         ages,
+  //         cityTier,
+  //         tenure,
+  //         coverage,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch data');
+  //     }
+
+  //     const data = await response.json();
+  //     const premiumData = {};
+  //     const updatedPremiumData = {}; // To store updated premium with discounts
+  //     let totalPremium = 0;
+  //     const maxAge = Math.max(...ages.filter(age => age !== null)); // Find the maximum age
+  //     console.log(maxAge, "yeh aa rhi hai")
+  //     data.forEach(([age, premium], index) => {
+  //       const premiumEntry = {};
+
+  //       if (age == maxAge) {
+  //         const floaterDiscount = 0;
+  //         premiumEntry.premium = premium;
+  //         // console.log(premiumEntry.premium,"premium amount");
+  //         premiumEntry.discountedRate = premium * ((100 - floaterDiscount)/100);
+  //         // console.log(premiumEntry.discountedRate);
+  //         }
+  //       else{
+  //         const floaterDiscount = 50;
+  //         premiumEntry.premium = premium;
+  //         // console.log(premiumEntry.premium,"premium amount");
+  //         premiumEntry.discountedRate = premium * ((100 - floaterDiscount)/100);
+  //         // console.log(premiumEntry.discountedRate);
+  //       }
+
+  //       premiumData[age] = premiumEntry.premium;
+  //       updatedPremiumData[age] = premiumEntry.discountedRate; // Update premium with discount
+
+  //       totalPremium += premiumEntry.discountedRate;
+
+  //       // if (age !== maxAge) {
+  //       //   const floaterDiscount = premium * 0.5;
+  //       //   premiumEntry.floaterDiscount = floaterDiscount;
+  //       //   premium -= floaterDiscount;
+  //       // }
+
+  //       // premiumEntry.premium = premium;
+  //       // premiumEntry.discountedRate = premium; // Initialize discounted rate as premium
+
+  //       // premiumData[age] = premiumEntry;
+  //       // updatedPremiumData[age] = premium - (premiumEntry.floaterDiscount || 0); // Update premium with discount
+  //       // totalPremium += premium;
+  //     });
+
+  //     this.setState({
+  //       premium: premiumData,
+  //       updatedPremium: updatedPremiumData,
+  //       totalPremium,
+  //       isAddedToCart: false,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
 
   handleCalculatePremium = async () => {
     try {
@@ -85,7 +166,6 @@ class App extends Component {
         updatedPremium: updatedPremiumData,
         totalPremium,
         isAddedToCart: false,
-        isPremiumCalculated: true,
       });
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -188,20 +268,42 @@ class App extends Component {
   }
 
   render() {
-    const { numAdults, numChildren, ages, cityTier, tenure, coverage, premium, isPremiumCalculated } = this.state;
+    const { numAdults, numChildren, ages, cityTier, tenure, coverage, premium } = this.state;
     const ageRow = [];
     const premiumRow = [];
     const floaterDiscountRow = [];
     const discountedRateRow = [];
 
+    // for (const age in this.state.premium) {
+    //   const premiumEntry = this.state.premium[age];
+    //   // const updatedPremiumEntry = this.state.updatedPremium[age];
+    //   const { premium, floaterDiscount, discountedRate } = premiumEntry;
+
+    //   ageRow.push(<td key={age}>{age}</td>);
+    //   premiumRow.push(<td key={age}>{premium}</td>);
+    //   floaterDiscountRow.push(<td key={age}>{floaterDiscount}*100%</td>);
+    //   discountedRateRow.push(<td key={age}>{discountedRate}</td>);
+    //   // floaterDiscountRow.push(<td key={age}>{discountedRate}/{premium}*100%</td>);
+    //   // if (floaterDiscount) {
+    //   //   const discountPercentage = (floaterDiscount / premium) * 100;
+    //   //   floaterDiscountRow.push(<td key={age}>{discountPercentage}%</td>);
+    //   // } else {
+    //   //   floaterDiscountRow.push(<td key={age}></td>);
+    //   // }
+    //   // discountedRateRow.push(<td key={age}>{discountedRate}</td>);
+    // }
+
+
     for (const age in this.state.premium) {
       const premiumEntry = this.state.premium[age];
-      const updatedPremiumEntry = this.state.updatedPremium[age];
+      // const updatedPremi 
+      umEntry = this.state.updatedPremium[age];
       const { premium, floaterDiscount, discountedRate } = premiumEntry;
 
       ageRow.push(<td key={age}>{age}</td>);
       premiumRow.push(<td key={age}>{premiumEntry.premium}</td>);
-      floaterDiscountRow.push(<td key={age}>{100 - (discountedRate / premium) * 100}%</td>);
+      floaterDiscountRow.push(<td key={age}>{(discountedRate/premium)*100}%</td>);
+
       discountedRateRow.push(<td key={age}>{premiumEntry.discountedRate}</td>);
     }
 
@@ -315,63 +417,41 @@ class App extends Component {
         <br />
         <div>
           <button onClick={this.handleCalculatePremium}>Calculate Premium</button><br /><br />
-          {isPremiumCalculated && (
-            <table align='center'>
-              <thead >
+          <table align='center'>
+            <thead >
+              {/* <tr>
+              <th>Age</th>
+              <th>Base rate</th>
+              <th>Floater Discount</th>
+              <th>Discount rate</th>
+            </tr> */}
+            </thead>
+            <tbody align='left'>
 
-              </thead>
-              <tbody align='left'>
-
-                <tr>
-                  <td><b>Age</b></td>
-                 {ageRow}
-                </tr>
-                <tr>
-                  <td><b>Premium</b></td>
-                 {premiumRow}
-                </tr>
-                <tr>
-                  <td><b>Floater Discount</b></td>
-                 {floaterDiscountRow}
-                </tr>
-                <tr>
-                  <td><b>Discounted rate</b></td>
-                 {discountedRateRow}
-                </tr><br/>
-                <tr>
-                  <td><b>Total Premium: </b></td>
-                  <td><b>{this.state.totalPremium}</b></td>
-                </tr>
-              </tbody>
-            </table>
-            // <table className="premium-table" align='center'>
-            //   <thead>
-            //     <tr>
-            //       <th>Age</th>
-            //       <th>Premium</th>
-            //       <th>Floater Discount</th>
-            //       <th>Discounted Rate</th>
-            //     </tr>
-            //   </thead>
-            //   <tbody align='left'>
-            //     {ageRow.map((age, index) => (
-            //       <tr key={age}>
-            //         <td><b>{age}</b></td>
-            //         <td>{premiumRow[index]}</td>
-            //         <td>{floaterDiscountRow[index]}</td>
-            //         <td>{discountedRateRow[index]}</td>
-            //       </tr>
-            //     ))}
-            //     <tr>
-            //       <td colSpan="3"><b>Total Premium:</b></td>
-            //       <td><b>{this.state.totalPremium}</b></td>
-            //     </tr>
-            //   </tbody>
-            // </table>
-
-          )}
+              <tr>
+                <td><b>Age</b></td>
+                {ageRow}
+              </tr>
+              <tr>
+                <td><b>Premium</b></td>
+                {premiumRow}
+              </tr>
+              <tr>
+                <td><b>Floater Discount</b></td>
+                {floaterDiscountRow}
+              </tr>
+              <tr>
+                <td><b>Discounted rate</b></td>
+                {discountedRateRow}
+              </tr>
+              <tr>
+                <td><b>Total Premium: </b></td>
+                <td>{this.state.totalPremium}</td>
+              </tr>
+            </tbody>
+          </table><br />
         </div>
-        <br />
+
 
         {this.state.totalPremium > 0 && (
           <button onClick={this.handleredirectcheckoutpage}>
@@ -382,13 +462,12 @@ class App extends Component {
           <div>
             <p>
               Your insurance has been added to the cart for {this.state.numAdults} adults and {this.state.numChildren} children
-              for an amount of {this.state.totalPremium}.<br />
-              If you wish to purchase the same, please click on the button below.
+              for an amount of {this.state.totalPremium}.
             </p>
             {!this.state.isPurchased ? (
               <button onClick={this.handlePurchase}>Purchase Insurance</button>
             ) : (
-              <p style={{ color: 'red' }}><b>Thank you so much for purchasing your insurance. You will be Redirected now...</b></p>
+              <p>Insurance has been purchased. Redirecting...</p>
             )}
           </div>
         )}
@@ -397,4 +476,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;

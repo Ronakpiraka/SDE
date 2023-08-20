@@ -1,6 +1,6 @@
-import ssl
+
 from pymongo import MongoClient
-from flask import Flask, json, render_template, request, jsonify
+from flask import Flask, json, request, jsonify
 from flask_cors import CORS
 import certifi
 ca = certifi.where()
