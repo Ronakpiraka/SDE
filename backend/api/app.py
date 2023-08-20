@@ -2,19 +2,20 @@ import ssl
 from pymongo import MongoClient
 from flask import Flask, json, render_template, request, jsonify
 from flask_cors import CORS
-
+import certifi
+ca = certifi.where()
 app = Flask(__name__)
 CORS(app)  # Apply CORS to the app
 
-# client = MongoClient('mongodb+srv://admin:simplepassword@cluster0.hauzbe5.mongodb.net/healthcaredb?retryWrites=true&w=majority')
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb+srv://admin:simplepassword@cluster0.hauzbe5.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+# client = MongoClient('mongodb://localhost:27017/')
 db = client["healthcaredb"]
-
+collectionname = 'sampledata'
 
 @app.route('/api/fetchrange', methods=['GET'])
 def get_age_range(age):
 
-    fetched_data = db['sampledata2'].find()
+    fetched_data = db[collectionname].find()
     unique_age_ranges = []
 
     for doc in fetched_data:
@@ -49,7 +50,7 @@ def get_age_range(age):
 @app.route('/api/fetch-data', methods=['GET'])
 def fetch_data():
     print("inside of fetch data")
-    fetched_data = db['sampledata2'].find()
+    fetched_data = db[collectionname].find()
     abc = []
     for doc in fetched_data:
         try:
@@ -89,7 +90,7 @@ def calculate_premium():
     
     premiums = []  # List to store premiums
     
-    fetched_data = db['sampledata2'].find()  # Fetch data from MongoDB collection
+    fetched_data = db[collectionname].find()  # Fetch data from MongoDB collection
     
     for age in ages:
         age_range = get_age_range(int(age))
