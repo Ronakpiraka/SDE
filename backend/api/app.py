@@ -43,6 +43,8 @@ def get_age_range(age):
 # def home_page():
 #     print("hi we are here")
 #     return render_template("index.html")
+# @app.route ('/')
+# def home():
 
 @app.route('/api/fetch-data', methods=['GET'])
 def fetch_data():
