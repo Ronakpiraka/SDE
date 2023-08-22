@@ -60,7 +60,7 @@ class App extends Component {
       console.log(maxAge, "yeh aa rhi hai")
       data.forEach(([age, premium], index) => {
         const premiumEntry = {};
-        const updatedPremiumEntry = {};
+        // const updatedPremiumEntry = {};
 
         if (age == maxAge) {
           const floaterDiscount = 0;
@@ -101,7 +101,7 @@ class App extends Component {
       this.setState({
         isAddedToCart: false,
         isPurchased: false,
-        totalPremium: 0, // Reset total premium
+        totalPremium: 0, 
 
       });
       window.location.reload()
@@ -145,7 +145,7 @@ class App extends Component {
   updateLocalStorage = () => {
     const { numAdults, numChildren, ages, cityTier, tenure, coverage } = this.state;
     const identifier = numChildren > 0 ? `${numAdults}a,${numChildren}c` : `${numAdults}a`;
-    const filteredAges = ages.filter(age => age !== null);
+    // const filteredAges = ages.filter(age => age !== null);
     localStorage.setItem('selectedIdentifier', identifier);
     localStorage.setItem('selectedAges', JSON.stringify(ages));
     localStorage.setItem('selectedTier', cityTier);
@@ -196,7 +196,7 @@ class App extends Component {
 
     for (const age in this.state.premium) {
       const premiumEntry = this.state.premium[age];
-      const updatedPremiumEntry = this.state.updatedPremium[age];
+      // const updatedPremiumEntry = this.state.updatedPremium[age];
       const { premium, floaterDiscount, discountedRate } = premiumEntry;
 
       ageRow.push(<td key={age}>{age}</td>);
@@ -344,31 +344,6 @@ class App extends Component {
                 </tr>
               </tbody>
             </table>
-            // <table className="premium-table" align='center'>
-            //   <thead>
-            //     <tr>
-            //       <th>Age</th>
-            //       <th>Premium</th>
-            //       <th>Floater Discount</th>
-            //       <th>Discounted Rate</th>
-            //     </tr>
-            //   </thead>
-            //   <tbody align='left'>
-            //     {ageRow.map((age, index) => (
-            //       <tr key={age}>
-            //         <td><b>{age}</b></td>
-            //         <td>{premiumRow[index]}</td>
-            //         <td>{floaterDiscountRow[index]}</td>
-            //         <td>{discountedRateRow[index]}</td>
-            //       </tr>
-            //     ))}
-            //     <tr>
-            //       <td colSpan="3"><b>Total Premium:</b></td>
-            //       <td><b>{this.state.totalPremium}</b></td>
-            //     </tr>
-            //   </tbody>
-            // </table>
-
           )}
         </div>
         <br />

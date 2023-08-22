@@ -26,26 +26,10 @@ def get_age_range(age):
         except:
             print(doc)
 
-    # print("unique_age_group",unique_age_ranges)
-    
-    # age_ranges = []
     for doc in unique_age_ranges:
-        # print('doc', doc)
         range_lower, range_upper = doc.split("-")
-        # print("age is", age, "lower ",range_lower,"upper", range_upper )
         if (age>=int(range_lower) and  age<=int(range_upper)):
-            # print("age is", age, "lower ",range_lower,"upper", range_upper )
             return f'{range_lower}-{range_upper}'
-        # else:
-        #     return 0,0
-
-
-# @app.route('/', methods = ['GET'])
-# def home_page():
-#     print("hi we are here")
-#     return render_template("index.html")
-# @app.route ('/')
-# def home():
 
 @app.route('/api/fetch-data', methods=['GET'])
 def fetch_data():
@@ -94,17 +78,15 @@ def calculate_premium():
     
     for age in ages:
         age_range = get_age_range(int(age))
-        # print(age_range)
         if age_range is not None:
             for entry in fetched_data:
                 if 'member_csv' in entry and 'age_range' in entry and 'tier' in entry:
                     if entry['member_csv'] == member_csv and entry['age_range'] == age_range and entry['tier'] == cityTier:
-                        premium = entry.get(coverage, 0)  # Retrieve premium based on coverage value or default to 0
+                        premium = entry.get(coverage, 0)  
                         premiums.append((age, premium))
-                        break  # Exit loop once found
+                        break  
         else:
-            print("Age range is unavailable for age:", age)
-            premiums.append((age, 0))  # Add age with premium 0
+            premiums.append((age, 0))
     return jsonify(premiums)
 
 
